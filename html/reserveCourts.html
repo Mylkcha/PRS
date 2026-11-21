@@ -43,6 +43,8 @@
       <label for="bookingTime">Choose a time:</label>
       <select id="bookingTime" name="bookingTime">
         <option value="">-- Select a time --</option>
+        <option value="08:00">08:00 AM - 11:00 AM</option>
+        <option value="09:00">09:00 AM - 10:00 AM</option>
         <option value="10:00">10:00 AM - 11:00 AM</option>
         <option value="13:00">1:00 PM - 2:00 PM</option>
         <option value="14:00">2:00 PM - 3:00 PM</option>
@@ -72,6 +74,8 @@
       <p>Duration: <span id="summaryDuration"></span></p>
       <p>Ending Time: <span id="summaryEnd"></span></p>
       <p>Estimated Price: <span id="summaryPrice">To be calculated</span></p>
+      <button type="button" id="confirmBooking">Confirm Booking</button>
+      <p id="confirmationMessage" style="display: none; color: green;">Your booking details are ready!</p>
     </div>
   </div> 
     <!-- Court Images -->
@@ -81,8 +85,6 @@
     <img src="../images/viewCourts_court2.jpg"
         alt="Court 2" style="width:600px;height:400px;">
   </div>
-
-  <input type="submit" value="Reserve" id="submitReserve">
 
 </section>
 

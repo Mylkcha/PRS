@@ -13,6 +13,8 @@
     const summaryDuration = document.getElementById("summaryDuration");
     const summaryEnd = document.getElementById("summaryEnd");
     const summaryPrice = document.getElementById("summaryPrice");
+    const confirmBooking = document.getElementById("confirmBooking");
+    const confirmationMessage = document.getElementById("confirmationMessage");
 
     // Set today as the earliest selectable date
     const today = new Date();
@@ -91,7 +93,7 @@
     }
 
         // Convert 24-hour time into AM/PM format
-        function formatTime(time) {
+    function formatTime(time) {
         const parts = time.split(":");
         const date = new Date();
         date.setHours(Number(parts[0]), Number(parts[1]))
@@ -99,7 +101,29 @@
             hour: "numeric",
             minute: "2-digit"
         });
+    }
+
+    function confirmBookingDetails() {
+
+        // Check if all booking details are selected
+        if (
+            dateInput.value !== "" &&
+            courtInput.value !== "" &&
+            bookingTime.value !== "" &&
+            bookingDuration.value !== ""
+        ) {
+            // Ask the customer to confirm
+            const answer = confirm("Are you sure you want to confirm this booking?");
+            if (answer) {
+            confirmationMessage.style.display = "block";
+            confirmationMessage.textContent ="Your booking details are ready! Actual reservation is not yet saved.";
+            }
+
+        } else {
+            alert("Please complete all booking details first.");
         }
+    }
+
     function submitReservation(){
         if (dateInput.value !== "") {
             console.log("Need to select schedule your reservation first!!!");
@@ -120,4 +144,5 @@
     bookingTime.addEventListener("change", updateDurationVisibility);
     bookingTime.addEventListener("change", calculateBookingDetails);
     bookingDuration.addEventListener("change", calculateBookingDetails);
+    confirmBooking.addEventListener("click", confirmBookingDetails);
     submitReserve.addEventListener("click", submitReservation);
