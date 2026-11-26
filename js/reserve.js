@@ -108,6 +108,7 @@ const summaryEnd = document.getElementById("summaryEnd");
 const summaryPrice = document.getElementById("summaryPrice");
 const confirmBooking = document.getElementById("confirmBooking");
 const confirmationMessage = document.getElementById("confirmationMessage");
+//const courtImgs = document.getElementsByClassName('court-images');
 
 // Set today as the earliest selectable date
 const today = new Date();
@@ -115,6 +116,19 @@ const year = today.getFullYear();
 const month = String(today.getMonth() + 1).padStart(2, "0");
 const day = String(today.getDate()).padStart(2, "0");
 dateInput.min = `${year}-${month}-${day}`;
+//courtImgs.style.display = 'none';
+
+/* dateInput.onclick = setDate();
+courtInput.onselectionchange = setCourt();
+function setDate() {  
+    courtImgs.style.display = 'none';
+}
+
+function setCourt() {
+    if courtInput.value = "" {
+
+    } else if courtInput.value = {}
+} */
 
 // Show or hide the court selection
 function updateCourtVisibility() {

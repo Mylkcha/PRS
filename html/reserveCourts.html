@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
+    <title>Pickleball Reservation System</title>
+    <!-- <link rel="stylesheet" href="../css/styles.css">-->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="../js/reserve.js" defer></script>
+  </head>
+  <body>
+    <script>
+      //alert("The reservation HTML file is loading!");
+    </script>
 
-  <title>Pickleball Reservation System</title>
-  <!-- <link rel="stylesheet" href="../css/styles.css">-->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script src="../js/reserve.js" defer></script>
+    <nav>
+      <a href="../index.html" target="_self">Home</a>
+      <a href="../html/reserveCourts.html" target="_self">Reserve Courts</a>
+      <a href="../html/viewCourts.html" target="_self">View Courts</a>
+      <a href="../html/aboutUs.html" target="_self">About Us</a>
+    </nav>
 
-</head>
-<body>
-<script>
-   //alert("The reservation HTML file is loading!");
-</script>
+    <header>
+      <h1>Welcome to Espesyal Pickeball Club</h1>
+    </header>
 
-<nav>
-  <a href="../index.html" target="_self">Home</a>
-  <a href="../html/reserveCourts.html" target="_self">Reserve Courts</a>
-  <a href="../html/viewCourts.html" target="_self">View Courts</a>
-  <a href="../html/aboutUs.html" target="_self">About Us</a>
-</nav>
+    <section>
+      <p>Make a reservation</p>
 
-<header>
-  <h1>Welcome to Espesyal Pickeball Club</h1>
-</header>
+      <!-- <form action="/reserveActionPage.php">-->
 
-<section>
-  <p>Make a reservation</p>
+      <label for="scheduleDate">Select Date:</label>
+      <input type="date" id="scheduleDate" name="scheduleDate" required />
+      <br /><br />
+      <p id="dateMessage">
+        Please choose a date first to see available courts.
+      </p>
 
-  <!-- <form action="/reserveActionPage.php">--> 
-  
-  <label for="scheduleDate">Select Date:</label>
-  <input type="date" id="scheduleDate" name="scheduleDate" required> 
-  <br><br>
-  <p id="dateMessage">Please choose a date first to see available courts.</p>
+      <!-- Court selection -->
+      <div id="courtSelection" style="display: none">
+        <label for="court">Choose a court:</label>
+        <select id="court" name="court" required>
+          <option value="">-- Select a court --</option>
+          <!-- <option value="court1">Court 1</option>-->
+        </select>
 
-  <!-- Court selection -->
-  <div id="courtSelection" style="display: none;">
-    <label for="court">Choose a court:</label>
-    <select id="court" name="court" required>
-      <option value="">-- Select a court --</option>
-    <!-- <option value="court1">Court 1</option>-->
-    </select>
-
-  <!-- Time selection --> 
-  <div id="timeSelection" style="display: none;">
-      <label for="bookingTime">Choose a time:</label>
-      <select id="bookingTime" name="bookingTime">
-        <option value="">-- Select a time --</option>
-  <!-- <option value="08:00">08:00 AM - 11:00 AM</option>
+        <!-- Time selection -->
+        <div id="timeSelection" style="display: none">
+          <label for="bookingTime">Choose a time:</label>
+          <select id="bookingTime" name="bookingTime">
+            <option value="">-- Select a time --</option>
+            <!-- <option value="08:00">08:00 AM - 11:00 AM</option>
         <option value="09:00">09:00 AM - 10:00 AM</option>
         <option value="10:00">10:00 AM - 11:00 AM</option>
         <option value="13:00">1:00 PM - 2:00 PM</option>
@@ -58,43 +58,55 @@
         <option value="18:00">6:00 PM - 7:00 PM</option>
         <option value="19:00">7:00 PM - 8:00 PM</option>
         <option value="20:00">8:00 PM - 9:00 PM</option>-->
-      </select> 
-  </div>
+          </select>
+        </div>
 
-  <!-- Duration Selection --> 
-  <div id="durationSelection" style="display: none;">
-    <label for="bookingDuration">Choose duration:</label>
-    <select id="bookingDuration" name="bookingDuration">
-        <option value="">-- Select duration --</option>
-        <option value="1">1 Hour</option>
-        <option value="2">2 Hours</option>
-        <option value="3">3 Hours</option>
-    </select>
-    <br><br>
-    <!-- Booking Summ ary --> 
-    <div id="bookingSummary" style="display: none;">
-      <h3>Booking Summary</h3>
-      <p>Starting Time: <span id="summaryStart"></span></p>
-      <p>Duration: <span id="summaryDuration"></span></p>
-      <p>Ending Time: <span id="summaryEnd"></span></p>
-      <p>Estimated Price: <span id="summaryPrice">To be calculated</span></p>
-      <button type="button" id="confirmBooking">Confirm Booking</button>
-      <p id="confirmationMessage" style="display: none; color: green;">Your booking details are ready!</p>
-    </div>
-  </div> 
-    <!-- Court Images -->
-    <h4>Court View</h4>
-    <img src="../images/viewCourts_court1.jpg"
-        alt="Court 1" style="width:600px;height:400px;">
-    <img src="../images/viewCourts_court2.jpg"
-        alt="Court 2" style="width:600px;height:400px;">
-  </div>
+        <!-- Duration Selection -->
+        <div id="durationSelection" style="display: none">
+          <label for="bookingDuration">Choose duration:</label>
+          <select id="bookingDuration" name="bookingDuration">
+            <option value="">-- Select duration --</option>
+            <option value="1">1 Hour</option>
+            <option value="2">2 Hours</option>
+            <option value="3">3 Hours</option>
+          </select>
+          <br /><br />
+          <!-- Booking Summ ary -->
+          <div id="bookingSummary" style="display: none">
+            <h3>Booking Summary</h3>
+            <p>Starting Time: <span id="summaryStart"></span></p>
+            <p>Duration: <span id="summaryDuration"></span></p>
+            <p>Ending Time: <span id="summaryEnd"></span></p>
+            <p>
+              Estimated Price: <span id="summaryPrice">To be calculated</span>
+            </p>
+            <button type="button" id="confirmBooking">Confirm Booking</button>
+            <p id="confirmationMessage" style="display: none; color: green">
+              Your booking details are ready!
+            </p>
+          </div>
+        </div>
+        <!-- Court Images -->
+        <h4>Court View</h4>
+        <img
+          class="court-images"
+          id="court1Image"
+          src="../images/viewCourts_court1.jpg"
+          alt="Court 1"
+          style="width: 600px; height: 400px"
+        />
+        <img
+          class="court-images"
+          id="court2Image"
+          src="../images/viewCourts_court2.jpg"
+          alt="Court 2"
+          style="width: 600px; height: 400px"
+        />
+      </div>
+    </section>
 
-</section>
-
-<footer>
-  <p>&copy; 2026 Espesyal Pickleball Club. All rights reserved.</p>
-</footer>
-
-</body>
+    <footer>
+      <p>&copy; 2026 Espesyal Pickleball Club. All rights reserved.</p>
+    </footer>
+  </body>
 </html>
