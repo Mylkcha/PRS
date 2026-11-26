@@ -1,7 +1,6 @@
 // Supabase project information
 const SUPABASE_URL = "https://pfqgjqvmnufycshsjcmf.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_gmOSKCvkS7D0sKDMpHHY_Q_t0z3eFTO";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gmOSKCvkS7D0sKDMpHHY_Q_t0z3eFTO";
 
 // Declare the client outside the if statement
 let supabaseClient = null;
