@@ -1,7 +1,7 @@
-
 // Supabase project information
 const SUPABASE_URL = "https://pfqgjqvmnufycshsjcmf.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gmOSKCvkS7D0sKDMpHHY_Q_t0z3eFTO";
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_gmOSKCvkS7D0sKDMpHHY_Q_t0z3eFTO";
 
 // Declare the client outside the if statement
 let supabaseClient = null;
@@ -10,87 +10,84 @@ let supabaseClient = null;
 
 // Check if Supabase library loaded
 if (window.supabase) {
-    console.log("Supabase library loaded successfully!");
+  console.log("Supabase library loaded successfully!");
 
-    // Create the Supabase connection
-    supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
+  // Create the Supabase connection
+  supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
-    //console.log("Supabase client created successfully!");
+  //console.log("Supabase client created successfully!");
 
-    // Test the database connection
-    async function testSupabaseConnection() {
-        console.log("Testing Supabase connection...");
+  // Test the database connection
+  async function testSupabaseConnection() {
+    console.log("Testing Supabase connection...");
 
-        try {
-            const { data, error } = await supabaseClient
-                .from("courts")
-                .select("id")
-                .limit(1);
+    try {
+      const { data, error } = await supabaseClient
+        .from("courts")
+        .select("id")
+        .limit(1);
 
-            if (error) {
-                console.error("Database connection error:", error.message);
-            } else {
-                console.log("Database connection successful!");
-                console.log("Court records:", data);
-            }
-        } catch (error) {
-            console.error("Unexpected error:", error);
-        }
+      if (error) {
+        console.error("Database connection error:", error.message);
+      } else {
+        console.log("Database connection successful!");
+        console.log("Court records:", data);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
+  }
+
+  //testSupabaseConnection();
+
+  // Load available courts from Supabase
+  async function loadCourts() {
+    console.log("Loading courts...");
+
+    const { data: courts, error } = await supabaseClient
+      .from("courts")
+      .select("id, name")
+      .eq("is_active", true)
+      .order("name");
+
+    if (error) {
+      console.error("Error loading courts:", error.message);
+      return;
     }
 
-    //testSupabaseConnection();
+    // Find the court dropdown
+    const courtDropdown = document.getElementById("court");
 
-    // Load available courts from Supabase
-    async function loadCourts() {
-        console.log("Loading courts...");
+    // Remove existing options
+    courtDropdown.innerHTML = "";
 
-        const { data: courts, error } = await supabaseClient
-            .from("courts")
-            .select("id, name")
-            .eq("is_active", true)
-            .order("name");
+    // Add the default option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "-- Select a court --";
+    courtDropdown.appendChild(defaultOption);
 
-        if (error) {
-            console.error("Error loading courts:", error.message);
-            return;
-        }
+    // Add courts from the database
+    courts.forEach(function (court) {
+      const option = document.createElement("option");
 
-        // Find the court dropdown
-        const courtDropdown = document.getElementById("court");
+      option.value = court.id;
+      option.textContent = court.name;
 
-        // Remove existing options
-        courtDropdown.innerHTML = "";
+      courtDropdown.appendChild(option);
+    });
 
-        // Add the default option
-        const defaultOption = document.createElement("option");
-        defaultOption.value = "";
-        defaultOption.textContent = "-- Select a court --";
-        courtDropdown.appendChild(defaultOption);
+    console.log("Courts loaded successfully:", courts);
+  }
 
-        // Add courts from the database
-        courts.forEach(function (court) {
-            const option = document.createElement("option");
-
-            option.value = court.id;
-            option.textContent = court.name;
-
-            courtDropdown.appendChild(option);
-        });
-
-        console.log("Courts loaded successfully:", courts);
-    }
-
-    // Run the function
-    loadCourts();
-
-
+  // Run the function
+  loadCourts();
 } else {
-    console.error("Supabase library did not load!");
+  console.error("Supabase library did not load!");
 }
-
 
 const dateInput = document.getElementById("scheduleDate");
 const courtSelection = document.getElementById("courtSelection");
@@ -118,120 +115,123 @@ const day = String(today.getDate()).padStart(2, "0");
 dateInput.min = `${year}-${month}-${day}`;
 
 function hideCourts() {
-    //hideCourtImages
-    for (let img of courtImgs) {
-        img.style.display = "none";
-    }
+  //hideCourtImages
+  for (let img of courtImgs) {
+    img.style.display = "none";
+  }
 }
 
 // Show or hide the court selection
 function updateCourtVisibility() {
-    if (dateInput.value !== "") {
-        courtSelection.style.display = "block";
-        dateMessage.style.display = "none";
-        
-    } else {
-        courtSelection.style.display = "none";
-        dateMessage.style.display = "block";
-        courtInput.value = "";
-        bookingTime.value = "";
-        timeSelection.style.display = "none";
-        hideCourts();
-    }
+  if (dateInput.value !== "") {
+    courtSelection.style.display = "block";
+    dateMessage.style.display = "none";
+  } else {
+    courtSelection.style.display = "none";
+    dateMessage.style.display = "block";
+    courtInput.value = "";
+    bookingTime.value = "";
+    timeSelection.style.display = "none";
+    hideCourts();
+  }
 }
 
 // Show time choices after selecting a court
 function updateTimeVisibility() {
-    if (courtInput.value !== "") {
-        timeSelection.style.display = "block";
-        
-        //Show image of selected court
-        if (courtInput.value == "Court 1") {
-            document.getElementById("court1Image").style.display = "block";
-        } else if (courtInput.value == "Court 2") {
-            document.getElementById("court2Image").style.display = "block";
-        }
-    } else {
-        timeSelection.style.display = "none";
-        bookingTime.value = "";
-        bookingDuration.value = "";
-        durationSelection.style.display = "none";
-    }
+  if (courtInput.value !== "") {
+    timeSelection.style.display = "block";
+  } else {
+    timeSelection.style.display = "none";
+    bookingTime.value = "";
+    bookingDuration.value = "";
+    durationSelection.style.display = "none";
+  }
 }
 
 // Show duration after selecting a time
 function updateDurationVisibility() {
-    if (bookingTime.value !== "") {
-        durationSelection.style.display = "block";
-    } else {
-        durationSelection.style.display = "none";
-        bookingDuration.value = "";
-    }
+  if (bookingTime.value !== "") {
+    durationSelection.style.display = "block";
+  } else {
+    durationSelection.style.display = "none";
+    bookingDuration.value = "";
+  }
 }
 
 function calculateBookingDetails() {
-    if (bookingTime.value !== "" && bookingDuration.value !== "") {
-        const startTime = bookingTime.value;
-        const duration = Number(bookingDuration.value);
-        const timeParts = startTime.split(":");
-        let hours = Number(timeParts[0]);
-        let minutes = Number(timeParts[1]);
+  if (bookingTime.value !== "" && bookingDuration.value !== "") {
+    const startTime = bookingTime.value;
+    const duration = Number(bookingDuration.value);
+    const timeParts = startTime.split(":");
+    let hours = Number(timeParts[0]);
+    let minutes = Number(timeParts[1]);
 
-        // Calculate ending time
-        hours = hours + duration;
+    // Calculate ending time
+    hours = hours + duration;
 
-        const endTime = new Date();
-        endTime.setHours(hours, minutes);
+    const endTime = new Date();
+    endTime.setHours(hours, minutes);
 
-        // Calculate price
-        const hourlyRate = 200;
-        const totalPrice = duration * hourlyRate;
+    // Calculate price
+    const hourlyRate = 200;
+    const totalPrice = duration * hourlyRate;
 
-        // Display booking details
-        summaryStart.textContent = formatTime(startTime);
-        summaryDuration.textContent = duration + " hour(s)";
-        summaryEnd.textContent = endTime.toLocaleTimeString([], {
-            hour: "numeric",
-            minute: "2-digit"
-        });
-        summaryPrice.textContent = "\u20B1" + totalPrice.toFixed(2);
-        bookingSummary.style.display = "block";
-
-    } else {
-        bookingSummary.style.display = "none";
-    }
+    // Display booking details
+    summaryStart.textContent = formatTime(startTime);
+    summaryDuration.textContent = duration + " hour(s)";
+    summaryEnd.textContent = endTime.toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "2-digit",
+    });
+    summaryPrice.textContent = "\u20B1" + totalPrice.toFixed(2);
+    bookingSummary.style.display = "block";
+  } else {
+    bookingSummary.style.display = "none";
+  }
 }
 
 // Convert 24-hour time into AM/PM format
 function formatTime(time) {
-    const parts = time.split(":");
-    const date = new Date();
-    date.setHours(Number(parts[0]), Number(parts[1]))
-    return date.toLocaleTimeString([], {
-        hour: "numeric",
-        minute: "2-digit"
-    });
+  const parts = time.split(":");
+  const date = new Date();
+  date.setHours(Number(parts[0]), Number(parts[1]));
+  return date.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+  });
 }
 
 function confirmBookingDetails() {
-
-    // Check if all booking details are selected
-    if (
-        dateInput.value !== "" &&
-        courtInput.value !== "" &&
-        bookingTime.value !== "" &&
-        bookingDuration.value !== ""
-    ) {
-        // Ask the customer to confirm
-        const answer = confirm("Are you sure you want to confirm this booking?");
-        if (answer) {
-            confirmationMessage.style.display = "block";
-            confirmationMessage.textContent = "Your booking details are ready! Actual reservation is not yet saved.";
-        }
-
-    } else {
-        alert("Please complete all booking details first.");
+  // Check if all booking details are selected
+  if (
+    dateInput.value !== "" &&
+    courtInput.value !== "" &&
+    bookingTime.value !== "" &&
+    bookingDuration.value !== ""
+  ) {
+    // Ask the customer to confirm
+    const answer = confirm("Are you sure you want to confirm this booking?");
+    if (answer) {
+      confirmationMessage.style.display = "block";
+      confirmationMessage.textContent =
+        "Your booking details are ready! Actual reservation is not yet saved.";
     }
+  } else {
+    alert("Please complete all booking details first.");
+  }
+}
+
+function showCourt() {
+  //Show image of selected court
+  let selectedText = courtInput.options[courtInput.selectedIndex].text;
+
+  if (selectedText === "Court 1") {
+    document.getElementById("court2Image").style.display = "none";
+    document.getElementById("court1Image").style.display = "block";
+  } else if (selectedText === "Court 2") {
+    document.getElementById("court1Image").style.display = "none";
+    document.getElementById("court2Image").style.display = "block";
+  }
 }
 
 // Run when the page opens
@@ -242,8 +242,8 @@ updateDurationVisibility();
 // Listen for changes
 dateInput.addEventListener("change", updateCourtVisibility);
 courtInput.addEventListener("change", updateTimeVisibility);
+courtInput.addEventListener("change", showCourt);
 bookingTime.addEventListener("change", updateDurationVisibility);
 bookingTime.addEventListener("change", calculateBookingDetails);
 bookingDuration.addEventListener("change", calculateBookingDetails);
 confirmBooking.addEventListener("click", confirmBookingDetails);
-
