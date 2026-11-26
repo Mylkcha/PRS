@@ -107,8 +107,8 @@ const summaryDuration = document.getElementById("summaryDuration");
 const summaryEnd = document.getElementById("summaryEnd");
 const summaryPrice = document.getElementById("summaryPrice");
 const confirmBooking = document.getElementById("confirmBooking");
-const confirmationMessage = document.getElementById("c  onfirmationMessage");
-const courtImgs = document.getElementById("court1Image");
+const confirmationMessage = document.getElementById("confirmationMessage");
+const courtImgs = document.getElementsByClassName("court-images");
 
 // Set today as the earliest selectable date
 const today = new Date();
@@ -116,19 +116,13 @@ const year = today.getFullYear();
 const month = String(today.getMonth() + 1).padStart(2, "0");
 const day = String(today.getDate()).padStart(2, "0");
 dateInput.min = `${year}-${month}-${day}`;
-//courtImgs.style.display = "none";
 
-/* dateInput.onclick = setDate();
-courtInput.onselectionchange = setCourt();
-function setDate() {  
-    courtImgs.style.display = 'none';
+function hideCourts() {
+    //hideCourtImages
+    for (let img of courtImgs) {
+        img.style.display = "none";
+    }
 }
-
-function setCourt() {
-    if courtInput.value = "" {
-
-    } else if courtInput.value = {}
-} */
 
 // Show or hide the court selection
 function updateCourtVisibility() {
@@ -142,7 +136,7 @@ function updateCourtVisibility() {
         courtInput.value = "";
         bookingTime.value = "";
         timeSelection.style.display = "none";
-        courtImgs.style.display = "none";
+        hideCourts();
     }
 }
 
@@ -150,6 +144,13 @@ function updateCourtVisibility() {
 function updateTimeVisibility() {
     if (courtInput.value !== "") {
         timeSelection.style.display = "block";
+        
+        //Show image of selected court
+        if (courtInput.value == "Court 1") {
+            document.getElementById("court1Image").style.display = "block";
+        } else if (courtInput.value == "Court 2") {
+            document.getElementById("court2Image").style.display = "block";
+        }
     } else {
         timeSelection.style.display = "none";
         bookingTime.value = "";
