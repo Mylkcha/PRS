@@ -1,0 +1,50 @@
+body {
+  background-color: #40513B;
+  margin: 0; /* Removes default browser spacing around the edges */
+}
+
+#mainPic {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40vw;      /* 1/3 of the screen width */
+  height: 100vh;       /* Full screen height */
+  object-fit: cover;   /* Crops cleanly without stretching */
+}
+
+#mainLabel {
+  position: fixed;
+  top: 8vh;                    /* 1/3 down from the top of the screen */
+  left: 41vw;                   /* 1/3 across from the left of the screen */
+  width: 58%;                    /* Adjust size as needed */
+  height: auto;                    /* Keeps original image proportions */
+}
+
+#buttonsDiv {
+  position: fixed;
+  top: 43vh;
+  left: 47vw;
+  width: 50vw;             /* 1/2 of the viewport width */
+  height: 70vh;            /* 1/2 of the viewport height (0.5 * 0.5 = 1/4 of screen area) */
+  margin-left: auto;       /* Pushes the div all the way to the right */
+  margin-right: 0;
+  display: flex;
+  flex-wrap: wrap;   
+  align-content: center;   /* Stops rows from stretching to fill the 70vh height */
+  gap: 0.1rem;               /* Now controls the exact vertical & horizontal gap */
+  justify-content: center;
+}
+
+#buttonsDiv .bigButton img {
+  width: 40rem;     /* Adjust to your desired size (or use px / vw) */
+  height: auto;     /* Keeps the button's original aspect ratio so it doesn't stretch */
+  display: block;   /* Removes the tiny extra space browsers add under images */
+  flex-basis: 100%; 
+  justify-content: center;
+}
+
+#buttonsDiv .smallButton img {
+  width: 20rem;     /* Adjust to your desired size (or use px / vw) */
+  height: auto;     /* Keeps the button's original aspect ratio so it doesn't stretch */
+  display: block;   /* Removes the tiny extra space browsers add under images */
+}
